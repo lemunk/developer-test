@@ -1,0 +1,10 @@
+My approach was not TDD nor BDD, as I have no commercial experience with either.
+
+CQRS pattern is one I'm also not familiar with, I primarily understand the Repository service layer pattern.  
+
+I would like to have used this, and implement some DI for some testing later on.
+
+As stated I have attempted to stick with the bare minimum required as this is just throw away code.
+
+My Approach is that of my experience the last 3-4 years, TDD and BDD is my main weakness as i have no experience
+As I've mentioned before.
