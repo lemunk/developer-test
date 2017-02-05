@@ -3,10 +3,11 @@ using OrangeBricks.Web.Attributes;
 using OrangeBricks.Web.Controllers.Offers.Builders;
 using OrangeBricks.Web.Controllers.Offers.Commands;
 using OrangeBricks.Web.Models;
+using Microsoft.AspNet.Identity;
 
 namespace OrangeBricks.Web.Controllers.Offers
 {
-    [OrangeBricksAuthorize(Roles = "Seller")]
+    [OrangeBricksAuthorize(Roles = "Seller,Buyer")]
     public class OffersController : Controller
     {
         private readonly IOrangeBricksContext _context;
@@ -43,5 +44,16 @@ namespace OrangeBricks.Web.Controllers.Offers
 
             return RedirectToAction("OnProperty", new { id = command.PropertyId });
         }
+
+        [Authorize]
+        public ActionResult OfferStatus()
+        {
+            var builder = new BuyerOffersOnPropertyViewModelBuilder(_context);
+
+            var viewModel = builder.Build(User.Identity.GetUserId());
+
+            return View(viewModel);
+        }
+  
     }
 }

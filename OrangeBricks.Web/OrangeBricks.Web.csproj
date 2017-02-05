@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +49,18 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\packages\SimpleInjector.2.8.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -110,6 +123,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -167,18 +184,23 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\OrangeBricksAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Offers\Builders\BuyerOffersOnPropertyViewModelBuilder.cs" />
     <Compile Include="Controllers\Offers\Builders\OffersOnPropertyViewModelBuilder.cs" />
     <Compile Include="Controllers\Offers\Commands\AcceptOfferCommand.cs" />
     <Compile Include="Controllers\Offers\Commands\AcceptOfferCommandHandler.cs" />
+    <Compile Include="Controllers\Offers\Commands\ListPropertyOnBuyerCommand.cs" />
+    <Compile Include="Controllers\Offers\Commands\ListPropertyOnBuyerCommandHandler.cs" />
     <Compile Include="Controllers\Offers\Commands\RejectOfferCommand.cs" />
     <Compile Include="Controllers\Offers\Commands\RejectOfferCommandHandler.cs" />
     <Compile Include="Controllers\Offers\OffersController.cs" />
     <Compile Include="Controllers\Offers\ViewModels\OffersOnPropertyViewModel.cs" />
+    <Compile Include="Controllers\Property\Builders\BookAppointmentViewModelBuilder.cs" />
     <Compile Include="Controllers\Property\Builders\MakeOfferViewModelBuilder.cs" />
     <Compile Include="Controllers\Property\Builders\MyPropertiesViewModelBuilder.cs" />
     <Compile Include="Controllers\Property\Builders\PropertiesQuery.cs" />
@@ -187,10 +209,13 @@
     <Compile Include="Controllers\Property\Commands\CreatePropertyCommandHandler.cs" />
     <Compile Include="Controllers\Property\Commands\ListPropertyCommand.cs" />
     <Compile Include="Controllers\Property\Commands\ListPropertyCommandHandler.cs" />
+    <Compile Include="Controllers\Property\Commands\BookAppointmentCommand.cs" />
     <Compile Include="Controllers\Property\Commands\MakeOfferCommand.cs" />
+    <Compile Include="Controllers\Property\Commands\BookAppointmentCommandHandler.cs" />
     <Compile Include="Controllers\Property\Commands\MakeOfferCommandHandler.cs" />
     <Compile Include="Controllers\Property\PropertyController.cs" />
     <Compile Include="Controllers\Property\ViewModels\CreatePropertyViewModel.cs" />
+    <Compile Include="Controllers\Property\ViewModels\BookAppointmentViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\MakeOfferViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\MyPropertiesViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\PropertiesViewModel.cs" />
@@ -227,9 +252,26 @@
     <Compile Include="Migrations\201505101607236_AddFieldsToOffers.Designer.cs">
       <DependentUpon>201505101607236_AddFieldsToOffers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702021813566_AddFieldsToOffers1.cs" />
+    <Compile Include="Migrations\201702021813566_AddFieldsToOffers1.Designer.cs">
+      <DependentUpon>201702021813566_AddFieldsToOffers1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702041355125_AddBookAppointmentTable.cs" />
+    <Compile Include="Migrations\201702041355125_AddBookAppointmentTable.Designer.cs">
+      <DependentUpon>201702041355125_AddBookAppointmentTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702041408081_UpdateBookAppointment.cs" />
+    <Compile Include="Migrations\201702041408081_UpdateBookAppointment.Designer.cs">
+      <DependentUpon>201702041408081_UpdateBookAppointment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702041432507_AddAppointmentField.cs" />
+    <Compile Include="Migrations\201702041432507_AddAppointmentField.Designer.cs">
+      <DependentUpon>201702041432507_AddAppointmentField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\BookAppointment.cs" />
     <Compile Include="Models\OfferStatus.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -259,7 +301,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -291,9 +335,12 @@
     <Content Include="Views\Property\MakeOffer.cshtml" />
     <Content Include="Views\Offers\OnProperty.cshtml" />
     <None Include="Views\Account\UnAuthorized.cshtml" />
+    <Content Include="Views\Offers\OfferStatus.cshtml" />
+    <Content Include="Views\Property\BookAppointment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -322,6 +369,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505101607236_AddFieldsToOffers.resx">
       <DependentUpon>201505101607236_AddFieldsToOffers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702021813566_AddFieldsToOffers1.resx">
+      <DependentUpon>201702021813566_AddFieldsToOffers1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702041355125_AddBookAppointmentTable.resx">
+      <DependentUpon>201702041355125_AddBookAppointmentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702041408081_UpdateBookAppointment.resx">
+      <DependentUpon>201702041408081_UpdateBookAppointment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702041432507_AddAppointmentField.resx">
+      <DependentUpon>201702041432507_AddAppointmentField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

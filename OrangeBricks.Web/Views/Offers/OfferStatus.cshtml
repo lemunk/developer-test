@@ -1,0 +1,20 @@
+﻿@model List<OrangeBricks.Web.Controllers.Offers.ViewModels.OffersOnPropertyViewModel>
+
+@{ 
+    ViewBag.Title = "Offer Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>Here you can see the status of any offers.</p>
+
+@* Iterate through Model*@
+
+@foreach (var item in Model)
+{
+    <p><strong>Property type:</strong> @item.PropertyType</p>
+    <p><strong>Number of bedrooms:</strong> @item.NumberOfBedrooms</p>
+    <p><strong>Street name:</strong> @item.StreetName</p>
+    <p><strong>Offer Status:</strong> @item.Offers.Select(x => x.Status).FirstOrDefault().ToString()</p>
+}
+

@@ -30,7 +30,11 @@
     <p>@property.NumberOfBedrooms bedroom @property.PropertyType</p>
     <p>@property.Description</p>
 
+    <a href="@Url.Action("BookAppointment", "Property", new {id = property.Id})" class="btn btn-primary">
+        Book Appointment?
+    </a>
+
     <a href="@Url.Action("MakeOffer", "Property", new {id = property.Id})" class="btn btn-primary">
-        Make Offer
+        Or Make Offer?
     </a>
 }
